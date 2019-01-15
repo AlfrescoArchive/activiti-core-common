@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Configuration
-@ComponentScan(basePackages = "org.activiti.core.common.spring.connector")
 public class ConnectorAutoConfiguration {
 
 
