@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.activiti.core.common</groupId>
     <artifactId>activiti-core-common-parent</artifactId>
-    <version>7.0.47</version>
+    <version>7.0.0.RC2</version>
   </parent>
   <artifactId>activiti-core-common-dependencies</artifactId>
   <packaging>pom</packaging>
