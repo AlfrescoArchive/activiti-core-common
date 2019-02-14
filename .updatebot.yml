@@ -3,8 +3,8 @@ github:
   - name: activiti
     repositories:
     - name: activiti-dependencies
-      branch: develop
+      branch: 7.0.x
       useSinglePullRequest: true
     - name: activiti
-      branch: develop
+      branch: 7.0.x
       useSinglePullRequest: true
