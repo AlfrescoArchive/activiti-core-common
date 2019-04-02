@@ -24,8 +24,10 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class ConnectorDefinitionService {
 
@@ -64,6 +66,28 @@ public class ConnectorDefinitionService {
         if (resourcesOptional.isPresent()) {
             for (Resource resource : resourcesOptional.get()) {
                 connectorDefinitions.add(read(resource.getInputStream()));
+            }
+            
+            if (!connectorDefinitions.isEmpty()) {
+            	Set<String> duplicates = new HashSet<>(); 
+            	String name;
+
+              	for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
+              		name = connectorDefinition.getName();
+              		if (name == null || name.isEmpty()) {
+              			throw new IllegalStateException("connectorDefinition name cannot be empty");
+              			
+              		}
+              		if (name.contains(".")) {
+              			throw new IllegalStateException("connectorDefinition name cannot have '.' character");
+              		}
+              		
+              		if (!duplicates.add(name)) {
+              			throw new IllegalStateException("connectorDefinition name '" + name + "' already present");
+              		}
+            	
+            	}
+            	
             }
         }
         return connectorDefinitions;
