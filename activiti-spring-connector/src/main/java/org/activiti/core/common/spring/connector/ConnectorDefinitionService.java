@@ -67,7 +67,6 @@ public class ConnectorDefinitionService {
             for (Resource resource : resourcesOptional.get()) {
                 connectorDefinitions.add(read(resource.getInputStream()));
             }
-
             validate(connectorDefinitions);
         }
         return connectorDefinitions;
@@ -80,19 +79,15 @@ public class ConnectorDefinitionService {
             for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
                 String name = connectorDefinition.getName();
                 if (name == null || name.isEmpty()) {
-                      throw new IllegalStateException("connectorDefinition name cannot be null or empty");
-
-                  }
-                  if (name.contains(".")) {
-                      throw new IllegalStateException("connectorDefinition name cannot have '.' character");
-                  }
-
-                  if (!processedNames.add(name)) {
-                      throw new IllegalStateException("More than one connectorDefinition with name '" + name + "' was found. Names must be unique.");
-                  }
-
+                    throw new IllegalStateException("connectorDefinition name cannot be null or empty");
+                }
+                if (name.contains(".")) {
+                    throw new IllegalStateException("connectorDefinition name cannot have '.' character");
+                }
+                if (!processedNames.add(name)) {
+                    throw new IllegalStateException("More than one connectorDefinition with name '" + name + "' was found. Names must be unique.");
+                }
             }
-
         }
     }
 }
