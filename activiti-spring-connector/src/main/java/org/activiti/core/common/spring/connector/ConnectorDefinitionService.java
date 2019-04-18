@@ -16,11 +16,6 @@
 
 package org.activiti.core.common.spring.connector;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.model.connector.ConnectorDefinition;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.ResourcePatternResolver;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,6 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.activiti.core.common.model.connector.ConnectorDefinition;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 public class ConnectorDefinitionService {
 
@@ -67,30 +67,33 @@ public class ConnectorDefinitionService {
             for (Resource resource : resourcesOptional.get()) {
                 connectorDefinitions.add(read(resource.getInputStream()));
             }
-            
-            if (!connectorDefinitions.isEmpty()) {
-            	Set<String> duplicates = new HashSet<>(); 
-            	String name;
 
-              	for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
-              		name = connectorDefinition.getName();
-              		if (name == null || name.isEmpty()) {
-              			throw new IllegalStateException("connectorDefinition name cannot be empty");
-              			
-              		}
-              		if (name.contains(".")) {
-              			throw new IllegalStateException("connectorDefinition name cannot have '.' character");
-              		}
-              		
-              		if (!duplicates.add(name)) {
-              			throw new IllegalStateException("connectorDefinition name '" + name + "' already present");
-              		}
-            	
-            	}
-            	
-            }
+            validate(connectorDefinitions);
         }
         return connectorDefinitions;
+    }
+
+    protected void validate(List<ConnectorDefinition> connectorDefinitions) {
+        if (!connectorDefinitions.isEmpty()) {
+            Set<String> processedNames = new HashSet<>();
+
+            for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
+                String name = connectorDefinition.getName();
+                if (name == null || name.isEmpty()) {
+                      throw new IllegalStateException("connectorDefinition name cannot be null or empty");
+
+                  }
+                  if (name.contains(".")) {
+                      throw new IllegalStateException("connectorDefinition name cannot have '.' character");
+                  }
+
+                  if (!processedNames.add(name)) {
+                      throw new IllegalStateException("More than one connectorDefinition with name '" + name + "' was found. Names must be unique.");
+                  }
+
+            }
+
+        }
     }
 }
 
