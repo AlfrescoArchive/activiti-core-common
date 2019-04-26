@@ -16,13 +16,10 @@
 
 package org.activiti.core.common.spring.connector.autoconfigure;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.model.connector.ConnectorDefinition;
 import org.activiti.core.common.spring.connector.ConnectorDefinitionService;
+import org.activiti.core.common.spring.connector.ConnectorReader;
+import org.activiti.core.common.spring.connector.ConnectorResourceFinderDescriptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -49,8 +46,24 @@ public class ConnectorAutoConfiguration {
     }
 
     @Bean
-    public List<ConnectorDefinition> connectorDefinitions(ConnectorDefinitionService connectorDefinitionService) throws IOException {
-        List<ConnectorDefinition> connectorDefinitions = connectorDefinitionService.get();
-        return connectorDefinitions == null? Collections.emptyList() : connectorDefinitions;
+    public ConnectorReader connectorReader(ObjectMapper objectMapper){
+        return new ConnectorReader(objectMapper);
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ConnectorResourceFinderDescriptor connectorResourceFinderDescriptor(@Value("${spring.activiti.checkProcessDefinitions:true}") boolean lookUpResources,
+                                                                               @Value("${activiti.connectors.dir:classpath:/connectors/}") String connectorRoot,
+                                                                               ConnectorReader connectorReader) {
+        if (connectorRoot == null) {
+            throw new IllegalArgumentException("'activiti.connectors.dir' cannot be null");
+        }
+        if (!connectorRoot.contains("connectors")) {
+            throw new IllegalArgumentException("'activiti.connectors.dir' should contains 'connectors' as a substring. Current value is `" + connectorRoot);
+        }
+        return new ConnectorResourceFinderDescriptor(lookUpResources,
+                                                     connectorRoot,
+                                                     connectorReader);
+    }
+
 }
