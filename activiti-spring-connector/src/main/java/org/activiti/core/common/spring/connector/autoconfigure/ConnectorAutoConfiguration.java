@@ -17,7 +17,6 @@
 package org.activiti.core.common.spring.connector.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.spring.connector.ConnectorDefinitionService;
 import org.activiti.core.common.spring.connector.ConnectorReader;
 import org.activiti.core.common.spring.connector.ConnectorResourceFinderDescriptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Configuration
 @ComponentScan(basePackages = "org.activiti.core.common.spring.connector")
@@ -38,11 +36,6 @@ public class ConnectorAutoConfiguration {
     @ConditionalOnMissingClass(value = "org.springframework.http.converter.json.Jackson2ObjectMapperBuilder")
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
-    }
-
-    @Bean
-    public ConnectorDefinitionService connectorDefinitionService(@Value("${activiti.connectors.dir:classpath:/connectors/}") String connectorRoot, ObjectMapper objectMapper, ResourcePatternResolver resourceLoader) {
-        return new ConnectorDefinitionService(connectorRoot, objectMapper, resourceLoader);
     }
 
     @Bean
@@ -59,7 +52,7 @@ public class ConnectorAutoConfiguration {
             throw new IllegalArgumentException("'activiti.connectors.dir' cannot be null");
         }
         if (!connectorRoot.contains("connectors")) {
-            throw new IllegalArgumentException("'activiti.connectors.dir' should contains 'connectors' as a substring. Current value is `" + connectorRoot);
+            throw new IllegalArgumentException("'activiti.connectors.dir' should contain 'connectors' as a substring. Current value is `" + connectorRoot);
         }
         return new ConnectorResourceFinderDescriptor(lookUpResources,
                                                      connectorRoot,

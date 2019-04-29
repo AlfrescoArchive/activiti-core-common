@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Alfresco, Inc. and/or its affiliates.
+ * Copyright 2019 Alfresco, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,32 +22,26 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ConnectorAutoConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@TestPropertySource(locations = "classpath:application-single-test.properties")
-public class ConnectorDefinitionServiceIT {
+public class ConnectorReaderIT {
 
     @Autowired
-    private ConnectorDefinitionService connectorDefinitionService;
+    private ConnectorReader connectorReader;
 
     @Test
-    public void connectorDefinition() throws IOException {
+    public void connectorDefinition() throws Exception {
 
-        List<ConnectorDefinition> connectorDefinitions = connectorDefinitionService.get();
-        assertThat(connectorDefinitions).hasSize(1);
-        assertThat(connectorDefinitions.get(0).getId()).isEqualTo("connector-uuid");
-        assertThat(connectorDefinitions.get(0).getName()).isEqualTo("Name-of-the-connector");
-        assertThat(connectorDefinitions.get(0).getActions().size()).isEqualTo(2);
-        assertThat(connectorDefinitions.get(0).getActions().get("actionId1").getName()).isEqualTo("actionName1");
-        assertThat(connectorDefinitions.get(0).getActions().get("actionId1").getInputs().get(0).getName()).isEqualTo("input-variable-name-1");
-        assertThat(connectorDefinitions.get(0).getActions().get("actionId1").getOutputs().get(0).getName()).isEqualTo("output-variable-name-1");
+        ConnectorDefinition connectorDefinition = connectorReader.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("connectors/connector.json"));
+        assertThat(connectorDefinition.getId()).isEqualTo("connector-uuid");
+        assertThat(connectorDefinition.getName()).isEqualTo("Name-of-the-connector");
+        assertThat(connectorDefinition.getActions().size()).isEqualTo(2);
+        assertThat(connectorDefinition.getActions().get("actionId1").getName()).isEqualTo("actionName1");
+        assertThat(connectorDefinition.getActions().get("actionId1").getInputs().get(0).getName()).isEqualTo("input-variable-name-1");
+        assertThat(connectorDefinition.getActions().get("actionId1").getOutputs().get(0).getName()).isEqualTo("output-variable-name-1");
     }
 }

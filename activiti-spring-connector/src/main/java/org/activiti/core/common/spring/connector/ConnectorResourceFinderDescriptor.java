@@ -72,25 +72,33 @@ public class ConnectorResourceFinderDescriptor implements ResourceFinderDescript
 
     @Override
     public void validate(List<Resource> resources) throws IOException {
+        List<ConnectorDefinition> connectorDefinitions = read(resources);
+        validateDefinitions(connectorDefinitions);
+    }
+
+    protected void validateDefinitions(List<ConnectorDefinition> connectorDefinitions) {
+        Set<String> duplicates = new HashSet<>();
+        for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
+            String name = connectorDefinition.getName();
+            if (name == null || name.isEmpty()) {
+                throw new IllegalStateException("connectorDefinition name cannot be null or empty");
+            }
+            if (name.contains(".")) {
+                throw new IllegalStateException("connectorDefinition name cannot have '.' character");
+            }
+            if (!duplicates.add(name)) {
+                throw new IllegalStateException("More than one connectorDefinition with name '" + name + "' was found. Names must be unique.");
+            }
+        }
+    }
+
+    private List<ConnectorDefinition> read(List<Resource> resources) throws IOException {
         List<ConnectorDefinition> connectorDefinitions = new ArrayList<>();
         for (Resource resource : resources) {
             try (InputStream inputStream = resource.getInputStream()) {
                 connectorDefinitions.add(connectorReader.read(inputStream));
             }
         }
-
-        Set<String> duplicates = new HashSet<>();
-        for (ConnectorDefinition connectorDefinition : connectorDefinitions) {
-            String name = connectorDefinition.getName();
-            if (name == null || name.isEmpty()) {
-                throw new IllegalStateException("connectorDefinition name cannot be empty");
-            }
-            if (name.contains(".")) {
-                throw new IllegalStateException("connectorDefinition name cannot have '.' character");
-            }
-            if (!duplicates.add(name)) {
-                throw new IllegalStateException("connectorDefinition name '" + name + "' already present");
-            }
-        }
+        return connectorDefinitions;
     }
 }

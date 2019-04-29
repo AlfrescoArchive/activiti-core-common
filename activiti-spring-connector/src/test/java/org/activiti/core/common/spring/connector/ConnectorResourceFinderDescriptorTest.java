@@ -19,33 +19,47 @@ package org.activiti.core.common.spring.connector;
 import java.util.Arrays;
 import java.util.Collections;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.activiti.core.common.model.connector.ConnectorDefinition;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.core.io.support.ResourcePatternResolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class ConnectorDefinitionServiceTest {
+public class ConnectorResourceFinderDescriptorTest {
 
-    private ConnectorDefinitionService connectorDefinitionService;
+    private ConnectorResourceFinderDescriptor resourceFinderDescriptor;
 
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @Mock
-    private ResourcePatternResolver resourceLoader;
+    private ConnectorReader reader;
 
     @Before
     public void setUp() {
         initMocks(this);
-        connectorDefinitionService = new ConnectorDefinitionService("/connectors",
-                                                                       objectMapper,
-                                                                       resourceLoader);
+        resourceFinderDescriptor = new ConnectorResourceFinderDescriptor(true,
+                                                                         "my/prefix/for/connectors/",
+                                                                         reader);
+    }
+
+    @Test
+    public void getLocationSuffixesShouldReturnJsonExtension() {
+        assertThat(resourceFinderDescriptor.getLocationSuffixes())
+                .containsExactly("**.json");
+    }
+
+    @Test
+    public void getLocationPrefixShouldReturnPrefixReceidAsConstructorParameter() {
+        assertThat(resourceFinderDescriptor.getLocationPrefix()).isEqualTo("my/prefix/for/connectors/");
+    }
+
+    @Test
+    public void shouldLookUpResourcesShouldReturnResultReceivedAsConstructorParameter() {
+        assertThat(new ConnectorResourceFinderDescriptor(true,
+                                              "my/prefix/for/connectors/",
+                                              reader).shouldLookUpResources()).isTrue();
+        assertThat(new ConnectorResourceFinderDescriptor(false,
+                                              "my/prefix/for/connectors/",
+                                              reader).shouldLookUpResources()).isFalse();
     }
 
     @Test
@@ -56,7 +70,7 @@ public class ConnectorDefinitionServiceTest {
 
         //when
         Throwable throwable = catchThrowable(
-                () -> connectorDefinitionService.validate(Collections.singletonList(connectorDefinition))
+                () -> resourceFinderDescriptor.validateDefinitions(Collections.singletonList(connectorDefinition))
         );
 
         //then
@@ -73,7 +87,7 @@ public class ConnectorDefinitionServiceTest {
 
         //when
         Throwable throwable = catchThrowable(
-                () -> connectorDefinitionService.validate(Collections.singletonList(connectorDefinition))
+                () -> resourceFinderDescriptor.validateDefinitions(Collections.singletonList(connectorDefinition))
         );
 
         //then
@@ -90,7 +104,7 @@ public class ConnectorDefinitionServiceTest {
 
         //when
         Throwable throwable = catchThrowable(
-                () -> connectorDefinitionService.validate(Collections.singletonList(connectorDefinition))
+                () -> resourceFinderDescriptor.validateDefinitions(Collections.singletonList(connectorDefinition))
         );
 
         //then
@@ -110,8 +124,8 @@ public class ConnectorDefinitionServiceTest {
 
         //when
         Throwable throwable = catchThrowable(
-                () -> connectorDefinitionService.validate(Arrays.asList(connectorDefinition,
-                                                                 connectorDefinitionWithSameName))
+                () -> resourceFinderDescriptor.validateDefinitions(Arrays.asList(connectorDefinition,
+                                                                        connectorDefinitionWithSameName))
         );
 
         //then
@@ -119,5 +133,4 @@ public class ConnectorDefinitionServiceTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("More than one connectorDefinition with name '" + connectorDefinition.getName() + "' was found. Names must be unique.");
     }
-
 }
