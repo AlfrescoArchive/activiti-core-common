@@ -46,7 +46,7 @@ public class ConnectorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ConnectorResourceFinderDescriptor connectorResourceFinderDescriptor(@Value("${spring.activiti.checkProcessDefinitions:true}") boolean lookUpResources,
-                                                                               @Value("${activiti.connectors.dir:classpath:/connectors/}") String connectorRoot,
+                                                                               @Value("${activiti.connectors.dir:classpath:**/connectors/}") String connectorRoot,
                                                                                ConnectorDefinitionReader connectorReader) {
         if (connectorRoot == null) {
             throw new IllegalArgumentException("'activiti.connectors.dir' cannot be null");

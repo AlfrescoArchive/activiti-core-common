@@ -38,7 +38,7 @@ public class ResourceFinderIT {
     @Test
     public void shouldReturnEmptyListWhenLocationDoesNotExist() throws Exception {
         //given
-        DummyResourceFinderDescriptor finderDescriptor = new DummyResourceFinderDescriptor("classpath:/not-exists",
+        DummyResourceFinderDescriptor finderDescriptor = new DummyResourceFinderDescriptor("classpath:**/not-exists/",
                                                                                                    "**.txt");
 
         //when
