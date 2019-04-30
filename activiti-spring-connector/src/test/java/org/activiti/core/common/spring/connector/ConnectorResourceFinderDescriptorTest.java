@@ -31,7 +31,7 @@ public class ConnectorResourceFinderDescriptorTest {
 
     private ConnectorResourceFinderDescriptor resourceFinderDescriptor;
 
-    private ConnectorReader reader;
+    private ConnectorDefinitionReader reader;
 
     @Before
     public void setUp() {

@@ -26,7 +26,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ConnectorReaderTest {
 
     @InjectMocks
-    private ConnectorReader reader;
+    private ConnectorDefinitionReader reader;
 
     @Before
     public void setUp() {

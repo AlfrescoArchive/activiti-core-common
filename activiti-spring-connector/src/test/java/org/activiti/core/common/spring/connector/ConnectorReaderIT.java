@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ConnectorReaderIT {
 
     @Autowired
-    private ConnectorReader connectorReader;
+    private ConnectorDefinitionReader connectorReader;
 
     @Test
     public void shouldReadConnectorDefinitionFromJsonFile() throws Exception {

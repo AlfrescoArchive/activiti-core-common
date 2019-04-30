@@ -34,11 +34,11 @@ public class ConnectorResourceFinderDescriptor implements ResourceFinderDescript
 
     private final boolean lookUpResources;
     private final String locationPrefix;
-    private final ConnectorReader connectorReader;
+    private final ConnectorDefinitionReader connectorReader;
 
     public ConnectorResourceFinderDescriptor(boolean lookUpResources,
                                              String locationPrefix,
-                                             ConnectorReader connectorReader) {
+                                             ConnectorDefinitionReader connectorReader) {
 
         this.lookUpResources = lookUpResources;
         this.locationPrefix = locationPrefix;

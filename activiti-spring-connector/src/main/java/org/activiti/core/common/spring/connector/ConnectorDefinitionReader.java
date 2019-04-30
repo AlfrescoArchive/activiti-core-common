@@ -24,11 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.activiti.core.common.model.connector.ConnectorDefinition;
 import org.activiti.spring.resources.ResourceReader;
 
-public class ConnectorReader implements ResourceReader<ConnectorDefinition> {
+public class ConnectorDefinitionReader implements ResourceReader<ConnectorDefinition> {
 
     private ObjectMapper objectMapper;
 
-    public ConnectorReader(ObjectMapper objectMapper) {
+    public ConnectorDefinitionReader(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

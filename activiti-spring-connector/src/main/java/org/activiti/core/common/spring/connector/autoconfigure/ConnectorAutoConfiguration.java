@@ -17,7 +17,7 @@
 package org.activiti.core.common.spring.connector.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.spring.connector.ConnectorReader;
+import org.activiti.core.common.spring.connector.ConnectorDefinitionReader;
 import org.activiti.core.common.spring.connector.ConnectorResourceFinderDescriptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -39,15 +39,15 @@ public class ConnectorAutoConfiguration {
     }
 
     @Bean
-    public ConnectorReader connectorReader(ObjectMapper objectMapper){
-        return new ConnectorReader(objectMapper);
+    public ConnectorDefinitionReader connectorReader(ObjectMapper objectMapper){
+        return new ConnectorDefinitionReader(objectMapper);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public ConnectorResourceFinderDescriptor connectorResourceFinderDescriptor(@Value("${spring.activiti.checkProcessDefinitions:true}") boolean lookUpResources,
                                                                                @Value("${activiti.connectors.dir:classpath:/connectors/}") String connectorRoot,
-                                                                               ConnectorReader connectorReader) {
+                                                                               ConnectorDefinitionReader connectorReader) {
         if (connectorRoot == null) {
             throw new IllegalArgumentException("'activiti.connectors.dir' cannot be null");
         }
