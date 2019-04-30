@@ -16,6 +16,8 @@
 
 package org.activiti.core.common.spring.connector;
 
+import java.io.InputStream;
+
 import org.activiti.core.common.model.connector.ConnectorDefinition;
 import org.activiti.core.common.spring.connector.autoconfigure.ConnectorAutoConfiguration;
 import org.junit.Test;
@@ -34,14 +36,16 @@ public class ConnectorReaderIT {
     private ConnectorReader connectorReader;
 
     @Test
-    public void connectorDefinition() throws Exception {
+    public void shouldReadConnectorDefinitionFromJsonFile() throws Exception {
 
-        ConnectorDefinition connectorDefinition = connectorReader.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("connectors/connector.json"));
-        assertThat(connectorDefinition.getId()).isEqualTo("connector-uuid");
-        assertThat(connectorDefinition.getName()).isEqualTo("Name-of-the-connector");
-        assertThat(connectorDefinition.getActions().size()).isEqualTo(2);
-        assertThat(connectorDefinition.getActions().get("actionId1").getName()).isEqualTo("actionName1");
-        assertThat(connectorDefinition.getActions().get("actionId1").getInputs().get(0).getName()).isEqualTo("input-variable-name-1");
-        assertThat(connectorDefinition.getActions().get("actionId1").getOutputs().get(0).getName()).isEqualTo("output-variable-name-1");
+        try (InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("connectors/connector.json")) {
+            ConnectorDefinition connectorDefinition = connectorReader.read(resourceAsStream);
+            assertThat(connectorDefinition.getId()).isEqualTo("connector-uuid");
+            assertThat(connectorDefinition.getName()).isEqualTo("Name-of-the-connector");
+            assertThat(connectorDefinition.getActions().size()).isEqualTo(2);
+            assertThat(connectorDefinition.getActions().get("actionId1").getName()).isEqualTo("actionName1");
+            assertThat(connectorDefinition.getActions().get("actionId1").getInputs().get(0).getName()).isEqualTo("input-variable-name-1");
+            assertThat(connectorDefinition.getActions().get("actionId1").getOutputs().get(0).getName()).isEqualTo("output-variable-name-1");
+        }
     }
 }
