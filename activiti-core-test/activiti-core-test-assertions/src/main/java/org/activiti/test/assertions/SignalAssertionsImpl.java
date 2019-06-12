@@ -35,8 +35,8 @@ public class SignalAssertionsImpl implements SignalAssertions {
     }
 
     @Override
-    public SignalAssertions expectEventsOn(ProcessInstance processInstance,
-                                           OperationScopeMatcher... matchers) {
+    public SignalAssertions expectEventsOnProcessInstance(ProcessInstance processInstance,
+                                                          OperationScopeMatcher... matchers) {
         List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(processInstanceScope(processInstance.getId()),

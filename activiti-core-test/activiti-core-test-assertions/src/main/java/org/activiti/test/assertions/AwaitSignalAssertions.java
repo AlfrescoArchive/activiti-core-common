@@ -30,10 +30,10 @@ public class AwaitSignalAssertions implements SignalAssertions {
     }
 
     @Override
-    public SignalAssertions expectEventsOn(ProcessInstance processInstance,
-                                           OperationScopeMatcher... matchers) {
-        await().untilAsserted(() -> signalAssertions.expectEventsOn(processInstance,
-                                                                    matchers));
+    public SignalAssertions expectEventsOnProcessInstance(ProcessInstance processInstance,
+                                                          OperationScopeMatcher... matchers) {
+        await().untilAsserted(() -> signalAssertions.expectEventsOnProcessInstance(processInstance,
+                                                                                   matchers));
         return this;
     }
 }

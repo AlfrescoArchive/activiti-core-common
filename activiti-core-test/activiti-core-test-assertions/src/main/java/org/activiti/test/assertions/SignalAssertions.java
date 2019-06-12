@@ -21,6 +21,6 @@ import org.activiti.test.matchers.OperationScopeMatcher;
 
 public interface SignalAssertions {
 
-    SignalAssertions expectEventsOn(ProcessInstance processInstance,
-                                    OperationScopeMatcher... matchers);
+    SignalAssertions expectEventsOnProcessInstance(ProcessInstance processInstance,
+                                                   OperationScopeMatcher... matchers);
 }
