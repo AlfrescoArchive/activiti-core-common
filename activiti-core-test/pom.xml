@@ -24,15 +24,15 @@
     <version>7.1.0-SNAPSHOT</version>
     <relativePath>../activiti-core-common-dependencies</relativePath>
   </parent>
-  <artifactId>activiti-steps</artifactId>
+  <artifactId>activiti-core-test</artifactId>
   <version>7.1.0-SNAPSHOT</version>
 
-  <name>Activiti Steps :: Parent</name>
+  <name>Activiti :: Test</name>
   <packaging>pom</packaging>
   
   <modules>
-    <module>activiti-steps-assertions-api</module>
-    <module>activiti-steps-assertions</module>
+    <module>activiti-core-test-assertions</module>
+    <module>activiti-core-test-local-runtime</module>
   </modules>
 
   <properties>
