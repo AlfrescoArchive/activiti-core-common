@@ -35,7 +35,7 @@ public class ProcessTaskMatchers {
         this.taskName = taskName;
     }
 
-    public static ProcessTaskMatchers task(String taskName) {
+    public static ProcessTaskMatchers taskWithName(String taskName) {
         return new ProcessTaskMatchers(taskName);
     }
 

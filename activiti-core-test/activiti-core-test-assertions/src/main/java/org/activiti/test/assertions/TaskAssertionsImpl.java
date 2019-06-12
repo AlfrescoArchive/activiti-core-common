@@ -45,7 +45,7 @@ public class TaskAssertionsImpl implements TaskAssertions {
     }
 
     @Override
-    public TaskAssertions expect(OperationScopeMatcher... matchers) {
+    public TaskAssertions expectEvents(OperationScopeMatcher... matchers) {
         List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(scope(task.getProcessInstanceId(),
@@ -56,7 +56,7 @@ public class TaskAssertionsImpl implements TaskAssertions {
     }
 
     @Override
-    public TaskAssertions expect(TaskResultMatcher... matchers) {
+    public TaskAssertions expectFields(TaskResultMatcher... matchers) {
         for (TaskResultMatcher matcher : matchers) {
             matcher.match(task);
         }

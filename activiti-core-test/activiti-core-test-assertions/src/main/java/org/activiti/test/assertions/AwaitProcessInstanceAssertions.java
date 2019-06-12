@@ -32,14 +32,14 @@ public class AwaitProcessInstanceAssertions implements ProcessInstanceAssertions
     }
 
     @Override
-    public ProcessInstanceAssertions expect(ProcessResultMatcher... matchers) {
-        await().untilAsserted(() -> processInstanceAssertions.expect(matchers));
+    public ProcessInstanceAssertions expectFields(ProcessResultMatcher... matchers) {
+        await().untilAsserted(() -> processInstanceAssertions.expectFields(matchers));
         return this;
     }
 
     @Override
-    public ProcessInstanceAssertions expect(OperationScopeMatcher... matchers) {
-        await().untilAsserted(() -> processInstanceAssertions.expect(matchers));
+    public ProcessInstanceAssertions expectEvents(OperationScopeMatcher... matchers) {
+        await().untilAsserted(() -> processInstanceAssertions.expectEvents(matchers));
         return this;
     }
 

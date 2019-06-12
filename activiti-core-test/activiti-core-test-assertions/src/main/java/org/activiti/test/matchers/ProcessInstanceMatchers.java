@@ -82,12 +82,12 @@ public class ProcessInstanceMatchers {
         return (processInstance) -> assertThat(processInstance.getStatus()).isEqualTo(status);
     }
 
-    public ProcessResultMatcher hasName(String name) {
+    public ProcessResultMatcher name(String name) {
         return (processInstance) ->
                 assertThat(processInstance.getName()).isEqualTo(name);
     }
 
-    public ProcessResultMatcher hasBusinessKey(String businessKey) {
+    public ProcessResultMatcher businessKey(String businessKey) {
         return (processInstance) ->
                 assertThat(processInstance.getBusinessKey()).isEqualTo(businessKey);
     }

@@ -32,14 +32,14 @@ public class AwaitTaskAssertions implements TaskAssertions {
     }
 
     @Override
-    public TaskAssertions expect(OperationScopeMatcher... matchers) {
-        await().untilAsserted(() -> taskAssertions.expect(matchers));
+    public TaskAssertions expectEvents(OperationScopeMatcher... matchers) {
+        await().untilAsserted(() -> taskAssertions.expectEvents(matchers));
         return this;
     }
 
     @Override
-    public TaskAssertions expect(TaskResultMatcher... matchers) {
-        await().untilAsserted(() -> taskAssertions.expect(matchers));
+    public TaskAssertions expectFields(TaskResultMatcher... matchers) {
+        await().untilAsserted(() -> taskAssertions.expectFields(matchers));
         return this;
     }
 

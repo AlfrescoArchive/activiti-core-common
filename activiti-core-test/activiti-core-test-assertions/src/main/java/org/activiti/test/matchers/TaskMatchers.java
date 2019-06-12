@@ -62,7 +62,7 @@ public class TaskMatchers {
         };
     }
 
-    public TaskResultMatcher hasAssignee(String assignee) {
+    public TaskResultMatcher assignee(String assignee) {
         return withAssignee(assignee);
     }
 

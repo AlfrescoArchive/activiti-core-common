@@ -23,9 +23,9 @@ import org.activiti.test.matchers.ProcessTaskMatcher;
 
 public interface ProcessInstanceAssertions {
 
-    ProcessInstanceAssertions expect(ProcessResultMatcher... processResultMatcher);
+    ProcessInstanceAssertions expectFields(ProcessResultMatcher... processResultMatcher);
 
-    ProcessInstanceAssertions expect(OperationScopeMatcher... matchers);
+    ProcessInstanceAssertions expectEvents(OperationScopeMatcher... matchers);
 
     ProcessInstanceAssertions expect(ProcessTaskMatcher... matchers);
 

@@ -44,7 +44,7 @@ public class ProcessInstanceAssertionsImpl implements ProcessInstanceAssertions 
     }
 
     @Override
-    public ProcessInstanceAssertions expect(ProcessResultMatcher... processResultMatcher) {
+    public ProcessInstanceAssertions expectFields(ProcessResultMatcher... processResultMatcher) {
         List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (ProcessResultMatcher matcher : processResultMatcher) {
             matcher.match(processInstance);
@@ -53,7 +53,7 @@ public class ProcessInstanceAssertionsImpl implements ProcessInstanceAssertions 
     }
 
     @Override
-    public ProcessInstanceAssertions expect(OperationScopeMatcher... matchers) {
+    public ProcessInstanceAssertions expectEvents(OperationScopeMatcher... matchers) {
         List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(processInstanceScope(processInstance.getId()),

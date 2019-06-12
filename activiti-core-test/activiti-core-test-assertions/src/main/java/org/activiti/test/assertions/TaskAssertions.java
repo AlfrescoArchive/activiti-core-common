@@ -23,9 +23,9 @@ import org.activiti.test.matchers.TaskResultMatcher;
 
 public interface TaskAssertions {
 
-    TaskAssertions expect(OperationScopeMatcher... matchers);
+    TaskAssertions expectEvents(OperationScopeMatcher... matchers);
 
-    TaskAssertions expect(TaskResultMatcher... matchers);
+    TaskAssertions expectFields(TaskResultMatcher... matchers);
 
     TaskAssertions expect(ProcessTaskMatcher... matchers);
 
