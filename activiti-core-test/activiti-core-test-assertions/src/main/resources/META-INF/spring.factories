@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.activiti.steps.conf.AssertionsAPIAutoConfiguration
+  org.activiti.test.conf.AssertionsAPIAutoConfiguration
