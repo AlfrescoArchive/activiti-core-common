@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.activiti.api.model.shared.event.RuntimeEvent;
 import org.activiti.api.process.model.ProcessInstance;
-import org.activiti.test.EventProvider;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.EventSource;
+import org.activiti.test.TaskSource;
 import org.activiti.test.matchers.OperationScopeMatcher;
 import org.activiti.test.matchers.ProcessResultMatcher;
 import org.activiti.test.matchers.ProcessTaskMatcher;
@@ -30,22 +30,22 @@ import static org.activiti.test.matchers.OperationScopeImpl.processInstanceScope
 
 public class ProcessInstanceAssertionsImpl implements ProcessInstanceAssertions {
 
-    private EventProvider eventProvider;
+    private EventSource eventSource;
 
-    private List<TaskProvider> taskProviders;
+    private List<TaskSource> taskSources;
     private ProcessInstance processInstance;
 
-    public ProcessInstanceAssertionsImpl(EventProvider eventProvider,
-                                         List<TaskProvider> taskProviders,
+    public ProcessInstanceAssertionsImpl(EventSource eventSource,
+                                         List<TaskSource> taskSources,
                                          ProcessInstance processInstance) {
-        this.eventProvider = eventProvider;
-        this.taskProviders = taskProviders;
+        this.eventSource = eventSource;
+        this.taskSources = taskSources;
         this.processInstance = processInstance;
     }
 
     @Override
     public ProcessInstanceAssertions expect(ProcessResultMatcher... processResultMatcher) {
-        List<RuntimeEvent<?, ?>> events = eventProvider.getEvents();
+        List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (ProcessResultMatcher matcher : processResultMatcher) {
             matcher.match(processInstance);
         }
@@ -54,7 +54,7 @@ public class ProcessInstanceAssertionsImpl implements ProcessInstanceAssertions 
 
     @Override
     public ProcessInstanceAssertions expect(OperationScopeMatcher... matchers) {
-        List<RuntimeEvent<?, ?>> events = eventProvider.getEvents();
+        List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(processInstanceScope(processInstance.getId()),
                           events);
@@ -66,7 +66,7 @@ public class ProcessInstanceAssertionsImpl implements ProcessInstanceAssertions 
     public ProcessInstanceAssertions expect(ProcessTaskMatcher... matchers) {
         for (ProcessTaskMatcher matcher : matchers) {
             matcher.match(processInstance.getId(),
-                          taskProviders);
+                          taskSources);
         }
         return this;
     }

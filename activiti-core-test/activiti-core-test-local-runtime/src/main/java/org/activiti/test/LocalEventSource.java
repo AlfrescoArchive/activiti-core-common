@@ -20,9 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.api.model.shared.event.RuntimeEvent;
-import org.activiti.test.EventProvider;
 
-public class LocalEventProvider implements EventProvider {
+public class LocalEventSource implements EventSource {
 
     private List<RuntimeEvent<?,?>> collectedEvents = new ArrayList<>();
 

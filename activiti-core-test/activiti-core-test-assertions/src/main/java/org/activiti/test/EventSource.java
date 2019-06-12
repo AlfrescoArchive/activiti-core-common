@@ -18,12 +18,10 @@ package org.activiti.test;
 
 import java.util.List;
 
-import org.activiti.api.task.model.Task;
+import org.activiti.api.model.shared.event.RuntimeEvent;
 
-public interface TaskProvider {
+public interface EventSource {
 
-    List<Task> getTasks(String processInstanceId);
-
-    boolean canHandle(Task.TaskStatus taskStatus);
+    List<RuntimeEvent<?,?>> getEvents();
 
 }

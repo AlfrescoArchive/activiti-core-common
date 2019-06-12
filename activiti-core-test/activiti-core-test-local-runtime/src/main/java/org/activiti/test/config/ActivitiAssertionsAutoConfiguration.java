@@ -43,10 +43,10 @@ import org.activiti.api.task.runtime.events.TaskCreatedEvent;
 import org.activiti.api.task.runtime.events.TaskSuspendedEvent;
 import org.activiti.api.task.runtime.events.TaskUpdatedEvent;
 import org.activiti.api.task.runtime.events.listener.TaskEventListener;
-import org.activiti.test.EventProvider;
-import org.activiti.test.LocalEventProvider;
-import org.activiti.test.LocalTaskProvider;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.EventSource;
+import org.activiti.test.LocalEventSource;
+import org.activiti.test.LocalTaskSource;
+import org.activiti.test.TaskSource;
 import org.activiti.test.operations.ProcessRuntimeOperations;
 import org.activiti.test.operations.TaskRuntimeOperations;
 import org.springframework.context.annotation.Bean;
@@ -55,34 +55,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ActivitiAssertionsAutoConfiguration {
 
-    private final LocalEventProvider localEventProvider = new LocalEventProvider();
+    private final LocalEventSource localEventProvider = new LocalEventSource();
 
     @Bean
-    public LocalEventProvider handledEvents() {
+    public LocalEventSource handledEvents() {
         return localEventProvider;
     }
 
     @Bean
-    public TaskProvider localTaskProvider(TaskRuntime taskRuntime) {
-        return new LocalTaskProvider(taskRuntime);
+    public TaskSource localTaskProvider(TaskRuntime taskRuntime) {
+        return new LocalTaskSource(taskRuntime);
     }
 
     @Bean
     public ProcessRuntimeOperations processRuntimeOperations(ProcessRuntime processRuntime,
-                                                             EventProvider eventProvider,
-                                                             List<TaskProvider> taskProviders) {
+                                                             EventSource eventSource,
+                                                             List<TaskSource> taskSources) {
         return new ProcessRuntimeOperations(processRuntime,
-                                            eventProvider,
-                                            taskProviders);
+                                            eventSource,
+                                            taskSources);
     }
 
     @Bean
     public TaskRuntimeOperations taskRuntimeOperations(TaskRuntime taskRuntime,
-                                                       EventProvider eventProvider,
-                                                       List<TaskProvider> taskProviders) {
+                                                       EventSource eventSource,
+                                                       List<TaskSource> taskSources) {
         return new TaskRuntimeOperations(taskRuntime,
-                                         eventProvider,
-                                         taskProviders);
+                                         eventSource,
+                                         taskSources);
     }
 
     @Bean

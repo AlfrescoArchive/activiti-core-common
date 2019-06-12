@@ -23,14 +23,13 @@ import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.Task;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
-import org.activiti.test.TaskProvider;
 
-public class LocalTaskProvider implements TaskProvider {
+public class LocalTaskSource implements TaskSource {
 
     private static final int MAX_ITEMS = 1000;
     private TaskRuntime taskRuntime;
 
-    public LocalTaskProvider(TaskRuntime taskRuntime) {
+    public LocalTaskSource(TaskRuntime taskRuntime) {
         this.taskRuntime = taskRuntime;
     }
 

@@ -25,7 +25,7 @@ import org.activiti.api.process.runtime.events.ProcessCompletedEvent;
 import org.activiti.api.process.runtime.events.ProcessCreatedEvent;
 import org.activiti.api.process.runtime.events.ProcessStartedEvent;
 import org.activiti.api.task.model.Task;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.TaskSource;
 
 import static org.activiti.api.process.model.events.ProcessRuntimeEvent.ProcessEvents.PROCESS_STARTED;
 import static org.assertj.core.api.Assertions.*;
@@ -96,7 +96,7 @@ public class ProcessInstanceMatchers {
                                       Task.TaskStatus taskStatus,
                                       TaskResultMatcher ... taskResultMatchers) {
         return (processInstanceId, taskProviders) -> {
-            for (TaskProvider provider : taskProviders) {
+            for (TaskSource provider : taskProviders) {
                 if (provider.canHandle(taskStatus)) {
                     List<Task> tasks = provider.getTasks(processInstanceId);
                     assertThat(tasks)

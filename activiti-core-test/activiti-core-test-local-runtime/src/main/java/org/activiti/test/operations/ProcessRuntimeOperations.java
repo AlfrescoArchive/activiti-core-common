@@ -22,40 +22,39 @@ import org.activiti.api.process.model.ProcessInstance;
 import org.activiti.api.process.model.payloads.SignalPayload;
 import org.activiti.api.process.model.payloads.StartProcessPayload;
 import org.activiti.api.process.runtime.ProcessRuntime;
-import org.activiti.test.EventProvider;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.EventSource;
+import org.activiti.test.TaskSource;
 import org.activiti.test.assertions.ProcessInstanceAssertions;
 import org.activiti.test.assertions.ProcessInstanceAssertionsImpl;
 import org.activiti.test.assertions.SignalAssertions;
 import org.activiti.test.assertions.SignalAssertionsImpl;
-import org.activiti.test.operations.ProcessOperations;
 
 public class ProcessRuntimeOperations implements ProcessOperations {
 
     private ProcessRuntime processRuntime;
-    private EventProvider eventProvider;
-    private List<TaskProvider> taskProviders;
+    private EventSource eventSource;
+    private List<TaskSource> taskSources;
 
     public ProcessRuntimeOperations(ProcessRuntime processRuntime,
-                                    EventProvider eventProvider,
-                                    List<TaskProvider> taskProviders) {
+                                    EventSource eventSource,
+                                    List<TaskSource> taskSources) {
         this.processRuntime = processRuntime;
-        this.eventProvider = eventProvider;
-        this.taskProviders = taskProviders;
+        this.eventSource = eventSource;
+        this.taskSources = taskSources;
     }
 
     @Override
     public ProcessInstanceAssertions start(StartProcessPayload startProcessPayload)  {
         ProcessInstance processInstance = processRuntime.start(startProcessPayload);
-        return new ProcessInstanceAssertionsImpl(eventProvider,
-                                                 taskProviders,
+        return new ProcessInstanceAssertionsImpl(eventSource,
+                                                 taskSources,
                                                  processInstance);
     }
 
     @Override
     public SignalAssertions signal(SignalPayload signalPayload) {
         processRuntime.signal(signalPayload);
-        return new SignalAssertionsImpl(eventProvider);
+        return new SignalAssertionsImpl(eventSource);
     }
 
 

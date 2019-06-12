@@ -20,24 +20,24 @@ import java.util.List;
 
 import org.activiti.api.model.shared.event.RuntimeEvent;
 import org.activiti.api.process.model.ProcessInstance;
-import org.activiti.test.EventProvider;
+import org.activiti.test.EventSource;
 import org.activiti.test.matchers.OperationScopeMatcher;
 
 import static org.activiti.test.matchers.OperationScopeImpl.processInstanceScope;
 
 public class SignalAssertionsImpl implements SignalAssertions {
 
-    private EventProvider eventProvider;
+    private EventSource eventSource;
 
-    public SignalAssertionsImpl(EventProvider eventProvider) {
+    public SignalAssertionsImpl(EventSource eventSource) {
 
-        this.eventProvider = eventProvider;
+        this.eventSource = eventSource;
     }
 
     @Override
     public SignalAssertions expectOn(ProcessInstance processInstance,
                                      OperationScopeMatcher... matchers) {
-        List<RuntimeEvent<?, ?>> events = eventProvider.getEvents();
+        List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(processInstanceScope(processInstance.getId()),
                           events);

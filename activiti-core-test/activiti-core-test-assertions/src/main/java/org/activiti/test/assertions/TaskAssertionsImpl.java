@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.activiti.api.model.shared.event.RuntimeEvent;
 import org.activiti.api.task.model.Task;
-import org.activiti.test.EventProvider;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.EventSource;
+import org.activiti.test.TaskSource;
 import org.activiti.test.matchers.OperationScopeMatcher;
 import org.activiti.test.matchers.ProcessTaskMatcher;
 import org.activiti.test.matchers.TaskResultMatcher;
@@ -32,21 +32,21 @@ public class TaskAssertionsImpl implements TaskAssertions {
 
     private Task task;
 
-    private EventProvider eventProvider;
+    private EventSource eventSource;
 
-    private List<TaskProvider> taskProviders;
+    private List<TaskSource> taskSources;
 
     public TaskAssertionsImpl(Task task,
-                              List<TaskProvider> taskProviders,
-                              EventProvider eventProvider) {
+                              List<TaskSource> taskSources,
+                              EventSource eventSource) {
         this.task = task;
-        this.taskProviders = taskProviders;
-        this.eventProvider = eventProvider;
+        this.taskSources = taskSources;
+        this.eventSource = eventSource;
     }
 
     @Override
     public TaskAssertions expect(OperationScopeMatcher... matchers) {
-        List<RuntimeEvent<?, ?>> events = eventProvider.getEvents();
+        List<RuntimeEvent<?, ?>> events = eventSource.getEvents();
         for (OperationScopeMatcher matcher : matchers) {
             matcher.match(scope(task.getProcessInstanceId(),
                                 task.getId()),
@@ -67,7 +67,7 @@ public class TaskAssertionsImpl implements TaskAssertions {
     public TaskAssertions expect(ProcessTaskMatcher... matchers) {
         for (ProcessTaskMatcher matcher : matchers) {
             matcher.match(task.getProcessInstanceId(),
-                          taskProviders);
+                          taskSources);
         }
         return this;
     }

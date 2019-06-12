@@ -22,26 +22,25 @@ import org.activiti.api.task.model.Task;
 import org.activiti.api.task.model.payloads.ClaimTaskPayload;
 import org.activiti.api.task.model.payloads.CompleteTaskPayload;
 import org.activiti.api.task.runtime.TaskRuntime;
-import org.activiti.test.EventProvider;
-import org.activiti.test.TaskProvider;
+import org.activiti.test.EventSource;
+import org.activiti.test.TaskSource;
 import org.activiti.test.assertions.TaskAssertions;
 import org.activiti.test.assertions.TaskAssertionsImpl;
-import org.activiti.test.operations.TaskOperations;
 
 public class TaskRuntimeOperations implements TaskOperations {
 
     private TaskRuntime taskRuntime;
 
-    private EventProvider eventProvider;
+    private EventSource eventSource;
 
-    private List<TaskProvider> taskProviders;
+    private List<TaskSource> taskSources;
 
     public TaskRuntimeOperations(TaskRuntime taskRuntime,
-                                 EventProvider eventProvider,
-                                 List<TaskProvider> taskProviders) {
+                                 EventSource eventSource,
+                                 List<TaskSource> taskSources) {
         this.taskRuntime = taskRuntime;
-        this.eventProvider = eventProvider;
-        this.taskProviders = taskProviders;
+        this.eventSource = eventSource;
+        this.taskSources = taskSources;
     }
 
     @Override
@@ -52,8 +51,8 @@ public class TaskRuntimeOperations implements TaskOperations {
 
     private TaskAssertions buildTaskAssertions(Task task) {
         return new TaskAssertionsImpl(task,
-                                      taskProviders,
-                                      eventProvider);
+                                      taskSources,
+                                      eventSource);
     }
 
     @Override
