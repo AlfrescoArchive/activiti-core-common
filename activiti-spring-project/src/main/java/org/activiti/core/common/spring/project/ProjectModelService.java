@@ -6,7 +6,7 @@ import java.nio.file.NoSuchFileException;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.project.model.ProjectModel;
+import org.activiti.core.common.project.model.ProjectManifest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -42,12 +42,12 @@ public class ProjectModelService {
         }
     }
 
-    private ProjectModel read (InputStream inputStream) throws IOException {
+    private ProjectManifest read (InputStream inputStream) throws IOException {
         return objectMapper.readValue(inputStream,
-                                      ProjectModel.class);
+                                      ProjectManifest.class);
     }
 
-    public ProjectModel getProjectModel() throws IOException  {
+    public ProjectManifest getProjectManifest() throws IOException  {
         Optional<Resource> resourceOptional = retrieveResource();
         if(resourceOptional.isPresent()){
             return read(resourceOptional.get().getInputStream());

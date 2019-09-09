@@ -31,7 +31,7 @@ public class ProjectModelConfiguration {
 
     @Bean
     public String projectReleaseVersion(ProjectModelService projectModelService) throws IOException {
-        return projectModelService.getProjectModel().getVersion();
+        return projectModelService.getProjectManifest().getVersion();
     }
 
 }

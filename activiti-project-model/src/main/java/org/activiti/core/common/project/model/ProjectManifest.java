@@ -1,6 +1,6 @@
 package org.activiti.core.common.project.model;
 
-public class ProjectModel {
+public class ProjectManifest {
 
     private String createdBy;
 
