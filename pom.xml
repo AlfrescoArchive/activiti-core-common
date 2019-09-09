@@ -66,6 +66,7 @@
     <module>activiti-spring-application</module>
     <module>activiti-core-test</module>
     <module>activiti-project-model</module>
+    <module>activiti-spring-project</module>
   </modules>
 
   <repositories>
