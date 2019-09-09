@@ -14,6 +14,10 @@ public class ProjectManifest {
 
     private String name;
 
+    private String description;
+
+    private String version;
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -77,9 +81,5 @@ public class ProjectManifest {
     public void setVersion(String version) {
         this.version = version;
     }
-
-    private String description;
-
-    private String version;
 
 }
