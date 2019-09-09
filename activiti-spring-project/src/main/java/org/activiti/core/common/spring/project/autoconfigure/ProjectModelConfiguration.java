@@ -22,7 +22,10 @@ public class ProjectModelConfiguration {
     }
 
     @Bean
-    public ProjectModelService projectModelService (@Value("") String path, @Value("") String appName, ObjectMapper objectMapper, ResourcePatternResolver resourceLoader){
+    public ProjectModelService projectModelService (@Value("${activiti.application.manifest.file.path=classpath:/}") String path,
+                                                    @Value("${activiti.cloud.application.name}") String appName,
+                                                    ObjectMapper objectMapper,
+                                                    ResourcePatternResolver resourceLoader){
         return new ProjectModelService(path, appName, objectMapper, resourceLoader);
     }
 
