@@ -1,20 +1,16 @@
-package org.activiti.core.common.spring.project.autoconfigure;
-
-import java.io.IOException;
+package org.activiti.core.common.spring.project.conf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.core.common.project.model.ProjectManifest;
 import org.activiti.core.common.spring.project.ProjectModelService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Configuration
-public class ProjectModelConfiguration {
+public class ProjectModelAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
@@ -32,11 +28,5 @@ public class ProjectModelConfiguration {
                                        applicationName,
                                        objectMapper,
                                        resourceLoader);
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "activiti.application.manifest.file.path")
-    public ProjectManifest projectManifest(ProjectModelService projectModelService) throws IOException {
-        return projectModelService.getProjectManifest();
     }
 }
