@@ -3,10 +3,12 @@ package org.activiti.core.common.spring.project.autoconfigure;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.activiti.core.common.project.model.ProjectManifest;
 import org.activiti.core.common.spring.project.ProjectModelService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -22,16 +24,19 @@ public class ProjectModelConfiguration {
     }
 
     @Bean
-    public ProjectModelService projectModelService (@Value("${activiti.application.manifest.file.path=classpath:/}") String path,
-                                                    @Value("${activiti.cloud.application.name}") String appName,
-                                                    ObjectMapper objectMapper,
-                                                    ResourcePatternResolver resourceLoader){
-        return new ProjectModelService(path, appName, objectMapper, resourceLoader);
+    public ProjectModelService projectModelService(@Value("${activiti.application.manifest.file.path}") String path,
+                                                   @Value("${activiti.cloud.application.name}") String applicationName,
+                                                   ObjectMapper objectMapper,
+                                                   ResourcePatternResolver resourceLoader) {
+        return new ProjectModelService(path,
+                                       applicationName,
+                                       objectMapper,
+                                       resourceLoader);
     }
 
     @Bean
-    public String projectReleaseVersion(ProjectModelService projectModelService) throws IOException {
-        return projectModelService.getProjectManifest().getVersion();
+    @ConditionalOnProperty(name = "activiti.application.manifest.file.path")
+    public ProjectManifest projectManifest(ProjectModelService projectModelService) throws IOException {
+        return projectModelService.getProjectManifest();
     }
-
 }

@@ -22,7 +22,7 @@ public class ProjectModelServiceIT {
     private ProjectModelService projectModelService;
 
     @Test
-    public void shouldRetrieveTheProjectManifest() throws IOException {
+    public void should_RetrieveManifest_When_Called() throws IOException {
 
         ProjectManifest projectModel = projectModelService.getProjectManifest();
 
@@ -35,5 +35,4 @@ public class ProjectModelServiceIT {
         assertThat(projectModel.getName()).isEqualTo("projectA");
         assertThat(projectModel.getVersion()).isEqualTo("2");
     }
-
 }
