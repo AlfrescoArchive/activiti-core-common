@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProjectModelAutoConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@TestPropertySource(properties = "activiti.application.manifest.file.path=null")
+@TestPropertySource(properties = "application.manifest.file.path=null")
 public class ProjectModelServiceNoManifestIT {
 
     @Autowired

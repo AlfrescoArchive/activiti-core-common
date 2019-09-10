@@ -16,7 +16,7 @@
 
     <dependency>
       <groupId>org.activiti.core.common</groupId>
-      <artifactId>activiti-connector-model</artifactId>
+      <artifactId>activiti-project-model</artifactId>
     </dependency>
 
     <dependency>
@@ -46,11 +46,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.activiti.core.common</groupId>
-      <artifactId>activiti-project-model</artifactId>
-    </dependency>
-
 
   </dependencies>
 
