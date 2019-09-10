@@ -20,7 +20,7 @@ public class ProjectModelAutoConfiguration {
     }
 
     @Bean
-    public ProjectModelService projectModelService(@Value("${application.manifest.file.path}") String path,
+    public ProjectModelService projectModelService(@Value("${application.manifest.file.path:classpath:/}") String path,
                                                    @Value("${activiti.cloud.application.name}") String applicationName,
                                                    ObjectMapper objectMapper,
                                                    ResourcePatternResolver resourceLoader) {
