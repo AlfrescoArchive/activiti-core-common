@@ -30,11 +30,11 @@ public class ProjectModelService {
         this.resourceLoader = resourceLoader;
     }
 
-    private Optional<Resource> retrieveResource() throws IOException {
+    private Optional<Resource> retrieveResource() {
 
-        Resource resource = resourceLoader.getResource(path);
+        Resource resource = resourceLoader.getResource(path + applicationName + ".json");
         if (resource.exists()) {
-            return Optional.of(resourceLoader.getResource(path + applicationName + ".json"));
+            return Optional.of(resource);
         } else {
             return Optional.empty();
         }
