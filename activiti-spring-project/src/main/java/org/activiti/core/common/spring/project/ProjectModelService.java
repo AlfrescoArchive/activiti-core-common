@@ -52,4 +52,8 @@ public class ProjectModelService {
                             .orElseThrow(() -> new FileNotFoundException("'" + applicationName + ".json' manifest not found."))
                             .getInputStream());
     }
+
+    public boolean hasProjectManifest(){
+        return retrieveResource().isPresent();
+    }
 }
