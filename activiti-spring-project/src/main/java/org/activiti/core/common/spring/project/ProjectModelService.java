@@ -45,7 +45,7 @@ public class ProjectModelService {
                                       ProjectManifest.class);
     }
 
-    public ProjectManifest getProjectManifest() throws IOException {
+    public ProjectManifest loadProjectManifest() throws IOException {
         Optional<Resource> resourceOptional = retrieveResource();
 
         return read(resourceOptional

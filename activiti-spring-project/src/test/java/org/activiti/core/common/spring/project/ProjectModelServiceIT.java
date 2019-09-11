@@ -24,7 +24,7 @@ public class ProjectModelServiceIT {
     @Test
     public void should_RetrieveManifest_When_Called() throws IOException {
 
-        ProjectManifest projectModel = projectModelService.getProjectManifest();
+        ProjectManifest projectModel = projectModelService.loadProjectManifest();
 
         assertThat(projectModel.getCreatedBy()).isEqualTo("superadminuser");
         assertThat(projectModel.getCreationDate()).isEqualTo("2019-08-16T15:58:46.056+0000");
