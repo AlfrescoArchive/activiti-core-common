@@ -12,7 +12,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 public class ProjectModelService {
 
-    private String absolutePath;
+    private String projectManifestFilePath;
 
     private final ObjectMapper objectMapper;
 
@@ -21,14 +21,14 @@ public class ProjectModelService {
     public ProjectModelService(String path,
                                ObjectMapper objectMapper,
                                ResourcePatternResolver resourceLoader) {
-        this.absolutePath = path;
+        this.projectManifestFilePath = path;
         this.objectMapper = objectMapper;
         this.resourceLoader = resourceLoader;
     }
 
     private Optional<Resource> retrieveResource() {
 
-        Resource resource = resourceLoader.getResource(absolutePath);
+        Resource resource = resourceLoader.getResource(projectManifestFilePath);
         if (resource.exists()) {
             return Optional.of(resource);
         } else {
@@ -45,7 +45,7 @@ public class ProjectModelService {
         Optional<Resource> resourceOptional = retrieveResource();
 
         return read(resourceOptional
-                            .orElseThrow(() -> new FileNotFoundException("'" + absolutePath + "' manifest not found."))
+                            .orElseThrow(() -> new FileNotFoundException("'" + projectManifestFilePath + "' manifest not found."))
                             .getInputStream());
     }
 
