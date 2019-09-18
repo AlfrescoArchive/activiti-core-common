@@ -40,7 +40,6 @@ public class ActivitiUserGroupManagerImplIT {
     }
 
     @org.springframework.context.annotation.Configuration
-    @ComponentScan("org.activiti.core.common.spring.identity")
     public static class Configuration {
 
     }
