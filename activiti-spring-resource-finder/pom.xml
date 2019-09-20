@@ -28,6 +28,8 @@
 
   <artifactId>activiti-spring-resource-finder</artifactId>
 
+  <name>Activiti :: Spring Resource Finder</name>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework</groupId>

@@ -12,6 +12,8 @@
 
   <artifactId>activiti-spring-connector</artifactId>
 
+  <name>Activiti :: Spring Connector</name>
+
   <dependencies>
     <dependency>
       <groupId>org.activiti.core.common</groupId>
