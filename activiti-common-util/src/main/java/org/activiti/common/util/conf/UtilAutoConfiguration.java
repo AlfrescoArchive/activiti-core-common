@@ -11,16 +11,16 @@
  * limitations under the License.
  */
 
-package org.activiti.common.converters.conf;
+package org.activiti.common.util.conf;
 
-import org.activiti.common.converters.DateFormatterProvider;
+import org.activiti.common.util.DateFormatterProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ConvertersAutoConfiguration {
+public class UtilAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean

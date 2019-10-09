@@ -67,7 +67,7 @@
     <module>activiti-core-test</module>
     <module>activiti-project-model</module>
     <module>activiti-spring-project</module>
-    <module>activiti-common-converters</module>
+    <module>activiti-common-util</module>
   </modules>
 
   <repositories>

@@ -13,7 +13,7 @@
  *
  */
 
-package org.activiti.common.converters;
+package org.activiti.common.util;
 
 import java.text.MessageFormat;
 import java.time.*;

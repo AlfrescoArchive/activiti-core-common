@@ -7,13 +7,14 @@
     <artifactId>activiti-core-common-parent</artifactId>
     <version>7.1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>activiti-common-converters</artifactId>
-  <name>activiti-common-converters</name>
+  <artifactId>activiti-common-util</artifactId>
+  <name>activiti-common-util</name>
+  <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-   	<!-- Optional -->
+      	<!-- Optional -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
@@ -36,6 +37,5 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>
