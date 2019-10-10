@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.activiti.common.util.conf.UtilAutoConfiguration
+org.activiti.common.util.conf.ActivitiCoreCommonUtilAutoConfiguration
