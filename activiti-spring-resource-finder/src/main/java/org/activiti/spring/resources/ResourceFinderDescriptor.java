@@ -16,7 +16,6 @@
 
 package org.activiti.spring.resources;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -29,7 +28,7 @@ public interface ResourceFinderDescriptor {
 
     boolean shouldLookUpResources();
 
-    void validate(List<Resource> resources) throws IOException;
+    boolean validate(Resource resource);
 
     String getMsgForEmptyResources();
 

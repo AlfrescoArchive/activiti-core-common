@@ -48,8 +48,15 @@ public class ResourceFinder {
             if (resources.isEmpty()) {
                 LOGGER.info(resourceFinderDescriptor.getMsgForEmptyResources());
             } else {
-                resourceFinderDescriptor.validate(resources);
-                
+                ArrayList<Resource> invalidResources = new ArrayList<>(resources);
+                resources = resources.stream().filter(resourceFinderDescriptor::validate).collect(Collectors.toList());
+                invalidResources.removeAll(resources);
+
+                if (!invalidResources.isEmpty()) {
+                    LOGGER.warn("The following resources were not included in the deployment because they are invalid: " +
+                                        invalidResources.stream().map(Resource::getFilename).collect(Collectors.toList()));
+                }
+
                 List<String> foundResources = resources.stream().map(Resource::getFilename).collect(Collectors.toList());
                 LOGGER.info(resourceFinderDescriptor.getMsgForResourcesFound(foundResources));
             }
@@ -57,5 +64,4 @@ public class ResourceFinder {
         return resources;
     }
 
-  
 }

@@ -16,9 +16,9 @@
 
 package org.activiti.spring.resources;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.springframework.core.io.Resource;
 
@@ -27,6 +27,8 @@ public class DummyResourceFinderDescriptor implements ResourceFinderDescriptor {
     private List<String> suffixes;
 
     private String locationPrefix;
+
+    private Predicate<Resource> validatePredicate;
 
     public DummyResourceFinderDescriptor(String locationPrefix,
                                          String ... suffixes) {
@@ -50,8 +52,11 @@ public class DummyResourceFinderDescriptor implements ResourceFinderDescriptor {
     }
 
     @Override
-    public void validate(List<Resource> resources) throws IOException {
-
+    public boolean validate(Resource resource) {
+        if (validatePredicate != null) {
+            return validatePredicate.test(resource);
+        }
+        return true;
     }
 
     @Override
@@ -62,5 +67,9 @@ public class DummyResourceFinderDescriptor implements ResourceFinderDescriptor {
     @Override
     public String getMsgForResourcesFound(List<String> foundResources) {
         return "Found resources: " + foundResources;
+    }
+
+    public void setValidatePredicate(Predicate<Resource> validatePredicate) {
+        this.validatePredicate = validatePredicate;
     }
 }

@@ -73,8 +73,25 @@ public class ResourceFinderIT {
 
         //then
         assertThat(foundResources)
-                .extracting(resource -> resource.getFilename())
+                .extracting(Resource::getFilename)
                 .containsOnly("matching.json",
                               "matching.txt");
+    }
+
+    @Test
+    public void shouldIgnoreMatchingFilesThatAreNotValid() throws Exception {
+        //given
+        DummyResourceFinderDescriptor finderDescriptor = new DummyResourceFinderDescriptor("classpath:/matching-resources/",
+                                                                                           "**.json",
+                                                                                           "**.txt");
+        finderDescriptor.setValidatePredicate(resource -> resource.getFilename().endsWith(".json"));
+
+        //when
+        List<Resource> foundResources = resourceFinder.discoverResources(finderDescriptor);
+
+        //then
+        assertThat(foundResources)
+                .extracting(Resource::getFilename)
+                .containsOnly("matching.json");
     }
 }
