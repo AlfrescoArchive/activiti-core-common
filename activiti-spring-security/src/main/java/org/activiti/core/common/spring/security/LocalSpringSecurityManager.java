@@ -1,65 +1,38 @@
+/*
+ * Copyright 2018 Alfresco, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.activiti.core.common.spring.security;
 
-import org.activiti.api.runtime.shared.security.SecurityManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.activiti.api.runtime.shared.security.AbstractSecurityManager;
+import org.activiti.api.runtime.shared.security.PrincipalDetailsProvider;
+import org.activiti.api.runtime.shared.security.PrincipalIdentityProvider;
+import org.activiti.api.runtime.shared.security.SecurityContextPrincipalProvider;
+import org.springframework.lang.NonNull;
 
 /*
  * This is a simple wrapper for Spring Security Context Holder
  */
-public class LocalSpringSecurityManager implements SecurityManager {
-
-    @Override
-    public String getAuthenticatedUserId() {
-        return getCurrentUserAuthentication().map(Authentication::getName)
-                                             .orElse("");
-    }
-
-    @Override
-    public Collection<String> getAuthenticatedUserGroups() {
-        return getCurrentUserGrantedAuthorities().map(this::getGroups)
-                                                 .orElseThrow(() -> new SecurityException("Invalid groups user security context"));
-    }
-
-    @Override
-    public Collection<String> getAuthenticatedUserRoles() {
-        return getCurrentUserGrantedAuthorities().map(this::getRoles)
-                                                 .orElseThrow(() -> new SecurityException("Invalid roles user security security context"));
-    }
+public class LocalSpringSecurityManager extends AbstractSecurityManager {
     
-    private List<String> getGroups(Collection<? extends GrantedAuthority> authorities) {
-        return getAuthoritesByPrefix(authorities, "GROUP_");
+    public LocalSpringSecurityManager(@NonNull SecurityContextPrincipalProvider securityContextPrincipalProvider,
+                                      @NonNull PrincipalIdentityProvider principalIdentityProvider,
+                                      @NonNull PrincipalDetailsProvider principalDetailsProvider) {
+        super(securityContextPrincipalProvider, 
+              principalIdentityProvider, 
+              principalDetailsProvider);
     }
 
-    private List<String> getRoles(Collection<? extends GrantedAuthority> authorities) {
-        return getAuthoritesByPrefix(authorities, "ROLE_");
-    }
-
-    private List<String> getAuthoritesByPrefix(Collection<? extends GrantedAuthority> authorities,
-                                               String prefix) {
-        return authorities.stream()
-                          .map(GrantedAuthority::getAuthority)
-                          .filter(a -> a.startsWith(prefix))
-                          .map(a -> a.substring(prefix.length()))
-                          .collect(Collectors.collectingAndThen(Collectors.toList(),
-                                                                Collections::unmodifiableList));
-    }
-    
-    private Optional<Collection<? extends GrantedAuthority>> getCurrentUserGrantedAuthorities() {
-        return getCurrentUserAuthentication().map(Authentication::getAuthorities);                
-    }
-    
-    private Optional<Authentication> getCurrentUserAuthentication() {
-        return Optional.ofNullable(SecurityContextHolder.getContext())
-                       .map(SecurityContext::getAuthentication);
-    }
-    
 }
