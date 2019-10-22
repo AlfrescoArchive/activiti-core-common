@@ -16,48 +16,33 @@
 
 package org.activiti.core.common.spring.security;
 
-import org.activiti.api.runtime.shared.security.PrincipalDetailsProvider;
+import org.activiti.api.runtime.shared.security.PrincipalRolesProvider;
 import org.springframework.lang.NonNull;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-public class AuthenticationPrincipalDetailsProvider implements PrincipalDetailsProvider {
+public class AuthenticationPrincipalRolesProvider implements PrincipalRolesProvider {
     
     private final GrantedAuthoritiesResolver grantedAuthoritiesResolver;
-    private final GrantedAuthoritiesGroupsMapper grantedAuthoritiesGroupsMapper;
     private final GrantedAuthoritiesRolesMapper grantedAuthoritiesRolesMapper;
 
-    public AuthenticationPrincipalDetailsProvider(@NonNull GrantedAuthoritiesResolver grantedAuthoritiesResolver,
-                                                  @NonNull GrantedAuthoritiesGroupsMapper grantedAuthoritiesGroupsMapper,
-                                                  @NonNull GrantedAuthoritiesRolesMapper grantedAuthoritiesRolesMapper) {
+    public AuthenticationPrincipalRolesProvider(@NonNull GrantedAuthoritiesResolver grantedAuthoritiesResolver,
+                                                @NonNull GrantedAuthoritiesRolesMapper grantedAuthoritiesRolesMapper) {
         this.grantedAuthoritiesResolver = grantedAuthoritiesResolver;
-        this.grantedAuthoritiesGroupsMapper = grantedAuthoritiesGroupsMapper;
         this.grantedAuthoritiesRolesMapper = grantedAuthoritiesRolesMapper;
     }
     
-    @Override
-    public List<String> getGroups(@NonNull Principal principal) {
-        return Optional.of(principal)
-                       .map(grantedAuthoritiesResolver::getAuthorities)
-                       .map(grantedAuthoritiesGroupsMapper::getGroups)
-                       .orElseThrow(this::groupsSecurityException);
-    }
-
     @Override
     public List<String> getRoles(@NonNull Principal principal) {
         return Optional.of(principal)
                        .map(grantedAuthoritiesResolver::getAuthorities)
                        .map(grantedAuthoritiesRolesMapper::getRoles)
-                       .orElseThrow(this::rolesSecurityException);
+                       .orElseThrow(this::securityException);
     }
     
-    protected SecurityException groupsSecurityException() {
-        return new SecurityException("Invalid principal groups");
-    }    
-
-    protected SecurityException rolesSecurityException() {
+    protected SecurityException securityException() {
         return new SecurityException("Invalid principal rolese");
     }    
     

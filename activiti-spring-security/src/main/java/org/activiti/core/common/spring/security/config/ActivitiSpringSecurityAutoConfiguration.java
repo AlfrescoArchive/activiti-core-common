@@ -16,12 +16,14 @@
 
 package org.activiti.core.common.spring.security.config;
 
-import org.activiti.api.runtime.shared.security.PrincipalDetailsProvider;
+import org.activiti.api.runtime.shared.security.PrincipalGroupsProvider;
 import org.activiti.api.runtime.shared.security.PrincipalIdentityProvider;
+import org.activiti.api.runtime.shared.security.PrincipalRolesProvider;
 import org.activiti.api.runtime.shared.security.SecurityContextPrincipalProvider;
 import org.activiti.api.runtime.shared.security.SecurityManager;
-import org.activiti.core.common.spring.security.AuthenticationPrincipalDetailsProvider;
+import org.activiti.core.common.spring.security.AuthenticationPrincipalGroupsProvider;
 import org.activiti.core.common.spring.security.AuthenticationPrincipalIdentityProvider;
+import org.activiti.core.common.spring.security.AuthenticationPrincipalRolesProvider;
 import org.activiti.core.common.spring.security.GrantedAuthoritiesGroupsMapper;
 import org.activiti.core.common.spring.security.GrantedAuthoritiesResolver;
 import org.activiti.core.common.spring.security.GrantedAuthoritiesRolesMapper;
@@ -69,22 +71,30 @@ public class ActivitiSpringSecurityAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public PrincipalDetailsProvider principalDetailsProvider(GrantedAuthoritiesResolver grantedAuthoritiesResolver,
-                                                             GrantedAuthoritiesGroupsMapper grantedAuthoritiesGroupsMapper,
-                                                             GrantedAuthoritiesRolesMapper grantedAuthoritiesRolesMapper) {
-        return new AuthenticationPrincipalDetailsProvider(grantedAuthoritiesResolver, 
-                                                          grantedAuthoritiesGroupsMapper, 
-                                                          grantedAuthoritiesRolesMapper);
+    public PrincipalGroupsProvider principalGroupsProvider(GrantedAuthoritiesResolver grantedAuthoritiesResolver,
+                                                           GrantedAuthoritiesGroupsMapper grantedAuthoritiesGroupsMapper) {
+        return new AuthenticationPrincipalGroupsProvider(grantedAuthoritiesResolver, 
+                                                         grantedAuthoritiesGroupsMapper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public PrincipalRolesProvider principalRolessProvider(GrantedAuthoritiesResolver grantedAuthoritiesResolver,
+                                                          GrantedAuthoritiesRolesMapper grantedAuthoritiesRolesMapper) {
+        return new AuthenticationPrincipalRolesProvider(grantedAuthoritiesResolver, 
+                                                        grantedAuthoritiesRolesMapper);
     }
     
     @Bean
     @ConditionalOnMissingBean
     public SecurityManager securityManager(SecurityContextPrincipalProvider securityContextPrincipalProvider,
                                            PrincipalIdentityProvider principalIdentityProvider,
-                                           PrincipalDetailsProvider principalDetailsProvider) {
+                                           PrincipalGroupsProvider principalGroupsProvider,
+                                           PrincipalRolesProvider principalRolessProvider) {
         return new LocalSpringSecurityManager(securityContextPrincipalProvider,
                                               principalIdentityProvider,
-                                              principalDetailsProvider);
+                                              principalGroupsProvider,
+                                              principalRolessProvider);
     }
 
 }
