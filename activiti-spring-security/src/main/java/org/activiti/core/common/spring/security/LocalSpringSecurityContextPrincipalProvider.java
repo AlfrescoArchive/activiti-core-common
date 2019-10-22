@@ -29,6 +29,5 @@ public class LocalSpringSecurityContextPrincipalProvider implements SecurityCont
     public Optional<Principal> getCurrentPrincipal() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                        .map(SecurityContext::getAuthentication);
-                       //.filter(UsernamePasswordAuthenticationToken.class::isInstance);
     }
 }
