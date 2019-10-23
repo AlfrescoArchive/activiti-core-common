@@ -17,6 +17,7 @@
 package org.activiti.core.common.spring.security;
 
 import org.activiti.api.runtime.shared.security.SecurityContextPrincipalProvider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -28,6 +29,8 @@ public class LocalSpringSecurityContextPrincipalProvider implements SecurityCont
     @Override
     public Optional<Principal> getCurrentPrincipal() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
-                       .map(SecurityContext::getAuthentication);
+                       .map(SecurityContext::getAuthentication)
+                       .filter(Authentication::isAuthenticated)
+                       .map(Authentication.class::cast);
     }
 }
