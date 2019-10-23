@@ -24,20 +24,20 @@ public class SimpleGrantedAuthoritiesResolver implements GrantedAuthoritiesResol
         return new SecurityException("Invalid principal authorities");
     }
     
-    public <T> Collection<? extends GrantedAuthority> getAuthorities(Authentication authentication) {
+    protected <T> Collection<? extends GrantedAuthority> getAuthorities(Authentication authentication) {
         return Optional.ofNullable(authentication.getAuthorities())
                        .orElseGet(this::emptyAuthorities);
     }
     
-    public <T> Collection<T> emptyAuthorities() {
+    protected <T> Collection<T> emptyAuthorities() {
         return Collections.emptyList();
     }
     
-    public Boolean isSupportedPrincipal(Principal principal) {
+    protected Boolean isSupportedPrincipal(Principal principal) {
         return getPrincipalClass().isInstance(principal);
     }
     
-    public <T> Class<? extends Authentication> getPrincipalClass() {
+    protected <T> Class<? extends Authentication> getPrincipalClass() {
         return Authentication.class;
     }
 }
