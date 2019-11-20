@@ -11,7 +11,7 @@
   <artifactId>activiti-core-common-parent</artifactId>
   <packaging>pom</packaging>
   <name>Activiti Core :: Common</name>
-  <version>7.1.0-SNAPSHOT</version>
+  <version>7.1.64</version>
   <description>Activiti Core :: Common</description>
   <url>http://activiti.org</url>
   <properties>
